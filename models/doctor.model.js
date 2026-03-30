@@ -63,6 +63,10 @@ const doctorSchema = new mongoose.Schema(
       required: [true, "Location is required"],
       trim: true,
     },
+     embedding: {
+      type: [Number],
+      default: [],
+    },
   },
   {
     timestamps: true,

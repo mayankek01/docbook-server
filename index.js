@@ -8,7 +8,7 @@ dotenv.config();
 import authRoutes from "./routes/auth.routes.js";
 import doctorRoutes from "./routes/doctor.routes.js";
 import slotRoutes from "./routes/slot.routes.js";
-
+import ragRoutes from "./routes/rag.routes.js";
 const app = express();
 
 // CORS — allow both local development and deployed frontend
@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/slots", slotRoutes);
+app.use("/api/rag", ragRoutes);
 
 const PORT = process.env.PORT || 5000;
 
