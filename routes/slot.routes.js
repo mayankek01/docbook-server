@@ -110,11 +110,14 @@ router.get("/:doctorId", async (req, res) => {
       .sort({ startTime: 1 });
 
     // If the requested date is today, filter out slots whose time has passed
-    const today = new Date().toISOString().split("T")[0];
+    // Get current time in IST (UTC + 5:30)
+    const nowUTC = new Date();
+    const istOffset = 5.5 * 60; // IST is UTC + 5 hours 30 minutes
+    const nowIST = new Date(nowUTC.getTime() + istOffset * 60 * 1000);
+    const today = nowIST.toISOString().split("T")[0];
 
     if (date === today) {
-      const now = new Date();
-      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const currentMinutes = nowIST.getHours() * 60 + nowIST.getMinutes();
 
       slots = slots.filter((slot) => {
         const [h, m] = slot.startTime.split(":").map(Number);
@@ -147,15 +150,18 @@ router.post("/:slotId/book", auth, async (req, res) => {
     }
 
     // Prevent booking past slots via API
-    const today = new Date().toISOString().split("T")[0];
+
+    const nowUTC = new Date();
+    const istOffset = 5.5 * 60;
+    const nowIST = new Date(nowUTC.getTime() + istOffset * 60 * 1000);
+    const today = nowIST.toISOString().split("T")[0];
 
     if (slot.date < today) {
       return res.status(400).json({ message: "Cannot book a slot in the past" });
     }
 
     if (slot.date === today) {
-      const now = new Date();
-      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const currentMinutes = nowIST.getHours() * 60 + nowIST.getMinutes();
       const [h, m] = slot.startTime.split(":").map(Number);
       const slotMinutes = h * 60 + m;
 
