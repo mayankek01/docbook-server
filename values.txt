@@ -1,0 +1,4 @@
+HeyhDrJuoXFNofYE
+mayankekagharame001_db_user
+
+mongodb+srv://mayankekagharame001_db_user:HeyhDrJuoXFNofYE@docsbook.jcossu8.mongodb.net/?appName=Docsbook
